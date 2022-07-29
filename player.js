@@ -1,3 +1,6 @@
+import io from "./io.js";
+import { getLocalAreas } from "./map.js";
+
 class Player {
   position = undefined;
   constructor(socket) {
@@ -10,6 +13,7 @@ class Player {
 }
 
 export function newPosition(position) {
-  console.log("emitting new position: ", position);
-  io.emit("newPosition", position);
+  const localAreas = getLocalAreas(position);
+  console.log("emitting local areas: ", localAreas);
+  io.emit("localAreas", localAreas);
 }
