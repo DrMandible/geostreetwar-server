@@ -2,6 +2,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { newPosition } from "./player.js";
 
+// https://github.com/DrMandible/geostreetwar-server.git
 const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {

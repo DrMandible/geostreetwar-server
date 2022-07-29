@@ -14,6 +14,6 @@ class Player {
 
 export function newPosition(position) {
   const localAreas = getLocalAreas(position);
-  console.log("emitting local areas: ", localAreas);
+  //   console.log("emitting local areas: ", localAreas);
   io.emit("localAreas", localAreas);
 }
