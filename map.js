@@ -4,7 +4,6 @@ const GRID_SIZE = 0.0005;
 function isCoordsInArea(coords, area) {
   let { x, y } = coords;
   let { x1, y1, x2, y2 } = area;
-  console.log(coords, area);
   x = Math.abs(x);
   y = Math.abs(y);
   x1 = Math.abs(x1);
@@ -18,7 +17,8 @@ export function getLocalAreas(coords) {
   let cachedAreas = 0;
   let newAreas = 0;
   let res = {};
-  const LOCAL_AREA_SIZE = 5;
+  let playerAreaIndex = -1;
+  const LOCAL_AREA_SIZE = 25;
   let startingLat = +(
     coords.latitude -
     (LOCAL_AREA_SIZE / 2) * GRID_SIZE
@@ -43,24 +43,36 @@ export function getLocalAreas(coords) {
 
       let ne = [+(lat - GRID_SIZE).toFixed(4), +(lng + GRID_SIZE).toFixed(4)];
       let sw = [+(lat + GRID_SIZE).toFixed(4), +(lng - GRID_SIZE).toFixed(4)];
+      let bounds = { sw, ne };
+      let area = {
+        bounds,
+        id: areaId,
+        actors: [],
+        visibility: "HIDDEN",
+        visibilityFactors: ["DISTANT"],
+      };
+
       if (
         isCoordsInArea(
           { x: coords.latitude, y: coords.longitude },
           { x1: ne[0], y1: ne[1], x2: sw[0], y2: sw[1] }
         )
       ) {
-        console.log("player is in area: ", areaId);
+        playerAreaIndex = areaId;
+        console.log("player is in area: ", areaId, j, i);
+        area.actors.push({
+          name: "TEST_PLAYER",
+          id: "TEST_ACTOR_ID",
+          visibility: "PLAYER_AREA",
+        });
       }
 
-      let bounds = { sw, ne };
-      let area = {
-        bounds,
-      };
       areas[areaId] = area;
       res[areaId] = area;
       newAreas++;
     }
   }
   console.log(`cached areas: ${cachedAreas} , new areas: ${newAreas}`);
+  console.log("player area: ", areas[playerAreaIndex]);
   return res;
 }
