@@ -38,7 +38,6 @@ export function getLocalAreas(coords) {
       if (areas[areaId]) {
         res[areaId] = areas[areaId];
         cachedAreas++;
-        continue;
       }
 
       let ne = [+(lat - GRID_SIZE).toFixed(4), +(lng + GRID_SIZE).toFixed(4)];
@@ -64,6 +63,7 @@ export function getLocalAreas(coords) {
           name: "TEST_PLAYER",
           id: "TEST_ACTOR_ID",
           visibility: "PLAYER_AREA",
+          visibilityFactors: ["NEAR"],
         });
       }
 
